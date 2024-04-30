@@ -1,13 +1,9 @@
+import { Drawer } from "@mui/material";
 import { useState } from "react";
+import { FiMenu } from "react-icons/fi";
 import { Link } from "react-scroll";
 
 const Navbar = () => {
-  const [toggleMenu, setToggleMenu] = useState(false);
-
-  const handleToggle = () => {
-    setToggleMenu(!toggleMenu);
-  };
-
   const navLinks = [
     {
       label: "Home",
@@ -36,7 +32,7 @@ const Navbar = () => {
   return (
     <header
       id="Home"
-      className="container flex items-center justify-between py-4 2xl:py-6"
+      className="container px-4 md:px-0 flex items-center justify-between py-4 2xl:py-6"
     >
       <img src="/Logo.png" alt="" />
       <div className="flex items-center gap-4 2xl:gap-6">
@@ -56,11 +52,43 @@ const Navbar = () => {
             </Link>
           ))}
         </ul>
+
+        <FiMenu
+          onClick={() => setMobileMenu(true)}
+          className="md:hidden text-xl"
+        />
       </div>
-      <div className="flex items-center gap-4">
+      <div className="hidden md:flex items-center gap-4">
         <button className="appBtn">Book a Demo</button>
         <button className="appOutlineBtn">Contact Us</button>
       </div>
+
+      <Drawer
+        anchor={"right"}
+        open={mobileMenu}
+        onClose={() => setMobileMenu(false)}
+      >
+        <div className="bg-divBgColor py-10 min-w-[250px] h-full text-white">
+          <ul className="flex flex-col px-8 md:hidden gap-6">
+            {navLinks.map((link, index) => (
+              <Link
+                key={index}
+                to={link.path}
+                spy={true}
+                smooth={true}
+                offset={-100}
+                duration={500}
+              >
+                <li className="cursor-pointer hover:text-textSky hover-animation pb-0.5 ">
+                  {link?.label}
+                </li>
+              </Link>
+            ))}
+            <button className="appBtn">Book a Demo</button>
+            <button className="appOutlineBtn">Contact Us</button>
+          </ul>
+        </div>
+      </Drawer>
     </header>
   );
 };
